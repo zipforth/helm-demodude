@@ -25,13 +25,13 @@ jobs:
           # Install yq if not available
           sudo snap install yq
           # Update the image tag in values.yaml
-          yq -i e '.images.demodude = ghcr.io/zipforth/demodude:${{ github.event.client_payload.semver }}' charts/helm-demodude/values.yaml
-          yq -i e '.appVersion = ${{ github.event.client_payload.semver }}' charts/helm-demodude/Chart.yaml
+          yq -i e '.images.demodude = "ghcr.io/zipforth/demodude:${{ github.event.client_payload.semver }}"' charts/helm-demodude/values.yaml
+          yq -i e '.appVersion = "${{ github.event.client_payload.semver }}"' charts/helm-demodude/Chart.yaml
 
-          CURRENT=$(yq e '.image.tag' charts/helm-demodude/Chart.yaml)
+          CURRENT=$(yq e '.version' charts/helm-demodude/Chart.yaml)
 
           NEW_VERSION=$(echo "$CURRENT" | awk -F. '{print $1"."$2"."$3+1}')
-          yq -i e '.version = ${NEW_VERSION}' charts/helm-demodude/Chart.yaml
+          yq -i e '.version = "${NEW_VERSION}"' charts/helm-demodude/Chart.yaml
       - name: Push changes
         uses: actions-js/push@master
         with:
