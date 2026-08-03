@@ -1,6 +1,6 @@
 
 images:
-  demodude: ghcr.io/zipforth/demodude:v0.1.1
+  demodude: ghcr.io/zipforth/demodude:v0.2.0
 svc:
   type: ClusterIP
   port: 80
