@@ -35,7 +35,7 @@ jobs:
       - name: Push changes
         uses: actions-js/push@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.PAT}}
           branch: main
           message: "updated the version of the image"
 
