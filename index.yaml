@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  helm-demodude:
+  - apiVersion: v2
+    appVersion: v0.0.2
+    created: "2026-08-03T03:29:44.958612464-05:00"
+    description: A Helm chart for serving the demodude image
+    digest: eeb04a39925c0b8f259cf21f2ecf18c3e83895f507347d028622fab63c443b22
+    name: helm-demodude
+    type: application
+    urls:
+    - https://zipforth.github.io/helm-demodude/packages/helm-demodude-v0.0.1.tgz
+    version: v0.0.1
+generated: "2026-08-03T03:29:44.958406714-05:00"
