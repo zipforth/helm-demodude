@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demodude-deployment
+  labels:
+    app: demodude
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demodude
+  template:
+    metadata:
+      labels:
+        app: demodude
+    spec:
+      containers:
+      - name: demodude
+        image: {{ .Values.images.demodude }}
+

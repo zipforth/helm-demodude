@@ -1,0 +1,36 @@
+==============================================================
+Thank you for installing {{ .Chart.Name }}:{{ .Chart.Version }}
+Demodude image version: {{ .Chart.AppVersion }}
+
+{{- if .Values.ingress.add_ingress }}
+{{- if .Values.ingress.host }}
+The demodude service is being served on {{- .Values.ingress.host }}
+To connect, go to that website.
+For other methods to connect, see below
+{{- else }}
+
+The demodude service is being served on the IP of the cluster. find this via:
+    echo "$(kubectl get nodes -o jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}')"
+{{- end }}
+{{- end }}
+
+
+
+{{- if eq .Values.svc.type "NodePort" }}
+Access demodude via the following commands:
+    echo "$(kubectl get nodes -o jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}')"
+    echo "$(kubectl get service -n {{ .Release.Namespace }} {{ .Values.svc.name }} -o jsonpath='{.spec.ports[0].nodePort}')"
+
+    Then access demodude via browser, using the IP and port shown in the echo commands
+
+Alternative method:
+   kubectl port-forward -n {{ .Release.Namespace }} service/{{ .Values.svc.name }} <available-local-port>:{{ .Values.svc.port }}
+   
+   Then access: localhost:<available-local-port>
+
+{{- else if eq .Values.svc.type "ClusterIP"}}
+Access demodude via the following commands:
+   kubectl port-forward -n {{ .Release.Namespace }} service/{{ .Values.svc.name }} <available-local-port>:{{ .Values.svc.port }}
+   
+   Then access: localhost:<available-local-port>
+{{-  end }}

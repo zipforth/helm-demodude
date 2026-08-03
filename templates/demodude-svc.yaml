@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.svc.name }}
+spec:
+  selector:
+    app: demodude
+  ports:
+    - protocol: TCP
+      port: {{ .Values.svc.port }}
+      targetPort: {{ .Values.svc.targetPort }}
+  type: {{ .Values.svc.type }}
