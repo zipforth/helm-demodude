@@ -1,17 +1,13 @@
 
 images:
-  demodude: ghcr.io/zipforth/demodude:v0.0.2
-
+  demodude: ghcr.io/zipforth/demodude:v0.1.0
 svc:
   type: ClusterIP
   port: 80
   targetPort: 9999
-  nodeport: 
+  nodeport:
   name: demodude-svc
-
 ingress:
   add_ingress: false
-  host: 
-  ingressClassName: 
-
-
+  host:
+  ingressClassName:
