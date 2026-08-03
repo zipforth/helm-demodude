@@ -1,0 +1,41 @@
+name: Update Image
+
+on:
+  repository_dispatch:
+    types: [image_updated]
+
+jobs:
+  release:
+    permissions: 
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Update files with yq
+        run: |
+          # Install yq if not available
+          sudo snap install yq
+          # Update the image tag in values.yaml
+          yq -i e '.images.demodude = ghcr.io/zipforth/demodude:${{ github.event.client_payload.semver }}' charts/helm-demodude/values.yaml
+          yq -i e '.appVersion = ${{ github.event.client_payload.semver }}' charts/helm-demodude/Chart.yaml
+
+          CURRENT=$(yq e '.image.tag' charts/helm-demodude/Chart.yaml)
+
+          NEW_VERSION=$(echo "$CURRENT" | awk -F. '{print $1"."$2"."$3+1}')
+          yq -i e '.version = ${NEW_VERSION}' charts/helm-demodude/Chart.yaml
+      - name: Push changes
+        uses: actions-js/push@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+          message: "updated the version of the image"
+
